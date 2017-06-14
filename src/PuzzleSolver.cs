@@ -8,6 +8,9 @@ namespace PuzzleSolver
         private enum Validation { Underflow, Exact, Overflow }
 
         private readonly int _size;
+        private readonly string _lineSeparator;
+        private readonly int _cursorLeft;
+        private readonly int _cursorTop;
         private readonly int[] _sumRows;
         private readonly int[] _sumCols;
         private readonly int[,] _puzzle;
@@ -22,6 +25,9 @@ namespace PuzzleSolver
             Check<ArgumentException>(initialPuzzle == null || Validate(initialPuzzle, sumRows, sumCols) != Validation.Overflow);
 
             _size = sumRows.Length;
+            _lineSeparator = new string(':', 3 * _size + 2);
+            _cursorLeft = Console.CursorLeft;
+            _cursorTop = Console.CursorTop;
             _sumRows = sumRows;
             _sumCols = sumCols;
             _puzzle = InitializeMatrix(initialPuzzle, _size);
@@ -30,6 +36,22 @@ namespace PuzzleSolver
         public int[,] Solve()
         {
             throw new NotImplementedException();
+        }
+
+        private void Print()
+        {
+            Console.SetCursorPosition(_cursorLeft, _cursorTop);
+
+            Console.WriteLine(_lineSeparator);
+            for (int row = 0; row < _puzzle.GetLength(0); row++)
+            {
+                for (int col = 0; col < _puzzle.GetLength(1); col++)
+                {
+                    Console.Write("::{0}", _puzzle[row, col]);
+                }
+                Console.WriteLine("::");
+                Console.WriteLine(_lineSeparator);
+            }
         }
 
         private Validation Validate()
