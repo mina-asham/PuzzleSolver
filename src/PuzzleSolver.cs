@@ -32,6 +32,11 @@ namespace PuzzleSolver
             throw new NotImplementedException();
         }
 
+        private Validation Validate()
+        {
+            return Validate(_puzzle, _sumRows, _sumCols);
+        }
+
         private static Validation Validate(int[,] puzzle, int[] sumRows, int[] sumCols)
         {
             bool isExact = true;
