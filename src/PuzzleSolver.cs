@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 
 namespace PuzzleSolver
 {
@@ -35,7 +36,47 @@ namespace PuzzleSolver
 
         public int[,] Solve()
         {
-            throw new NotImplementedException();
+            DateTime start = DateTime.Now;
+            Solve(0);
+            DateTime end = DateTime.Now;
+            Console.WriteLine($"Finished in: {end - start}");
+            return _puzzle;
+        }
+
+        private bool Solve(int level)
+        {
+            Print();
+
+            Validation validation = Validate();
+            switch (validation)
+            {
+                case Validation.Exact:
+                    return true;
+                case Validation.Overflow:
+                    return false;
+            }
+
+            if (level >= _size * _size)
+            {
+                return false;
+            }
+
+            int row = level / _size;
+            int col = level % _size;
+            int value = _puzzle[row, col];
+
+            for (int i = value; i < 10; i++)
+            {
+                _puzzle[row, col] = i;
+                if (Solve(level + 1))
+                {
+                    return true;
+                }
+            }
+
+            _puzzle[row, col] = value;
+
+            return false;
         }
 
         private void Print()
