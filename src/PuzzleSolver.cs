@@ -65,9 +65,9 @@ namespace PuzzleSolver
             int col = level % _size;
             int value = _puzzle[row, col];
 
-            for (int i = value; i < 10; i++)
+            foreach (int newValue in Enumerable.Range(value, 10 - value).OrderBy(ignored => Guid.NewGuid()))
             {
-                _puzzle[row, col] = i;
+                _puzzle[row, col] = newValue;
                 if (Solve(level + 1))
                 {
                     return true;
